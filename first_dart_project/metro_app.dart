@@ -10,6 +10,12 @@ void main(){
   print('good , and what is ur arrival ?');
   final arrival = validateStation(stdin.readLineSync() ?? '');
 
+    // start == end
+  if(start == arrival){
+    print("You are in the station ,No route found.");
+    return;
+  }
+
   // Check if the start or the arrival are wrong names
   if(start == null || arrival == null){
     print('sorry, Enter a right station name for the start and the arrival');
