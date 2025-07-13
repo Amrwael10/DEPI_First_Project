@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'graph.dart';
 import 'right_stations.dart';
+import 'lines_stations_data.dart';
 
 void main(){
   // Step 1 : enter the data
@@ -53,7 +54,32 @@ void main(){
     print('it will take $hours hours and $minutes mins');
   }
   print('ticket price is $ticketPrice');
-  print('direction => ${route.last}');
+  
+  // Determine direction and print it
+  final lines = stationToLines[start] ?? [];
+  String? direction;
+
+  for (var line in lines) {
+    final fullLine = {
+      "Line 1": line1,
+      "Line 2": line2,
+      "Line 3 (Rod el Frag)": line_three_rod,
+      "Line 3 (Cairo Uni)": list_three_cairo,
+    }[line];
+
+    if (fullLine != null &&
+        fullLine.map((s) => s.toLowerCase()).contains(start) &&
+        fullLine.map((s) => s.toLowerCase()).contains(arrival)) {
+
+      final startIndex = fullLine.indexWhere((s) => s.toLowerCase() == start);
+      final endIndex = fullLine.indexWhere((s) => s.toLowerCase() == arrival);
+
+      direction = (startIndex < endIndex) ? fullLine.last : fullLine.first;
+      break;
+    }
+  }
+
+  print('direction => ${direction ?? route.last}');
   print('The stations you will visit are : ');
   if (route.isNotEmpty) {
     printRouteWithTransfers(route);
